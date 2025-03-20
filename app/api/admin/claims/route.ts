@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/app/lib";
+import {db} from "@/app/lib";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/lib/auth";
 
@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
         const limit = parseInt(url.searchParams.get("limit") || "20");
         const skip = (page - 1) * limit;
 
-        const claims = await prisma.claim.findMany({
+        const claims = await db.claim.findMany({
             skip,
             take: limit,
             orderBy: { createdAt: "desc" },
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
             }
         });
 
-        const total = await prisma.claim.count();
+        const total = await db.claim.count();
 
         return NextResponse.json({
             claims,
@@ -54,7 +54,7 @@ export async function DELETE(req: NextRequest) {
             return NextResponse.json({ error: "Claim ID is required" }, { status: 400 });
         }
 
-        const resp = await prisma.claim.delete({
+        const resp = await db.claim.delete({
             where: { id: parseInt(id) }
         });
 

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/app/lib";
+import {db} from "@/app/lib";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/auth";
 import { error } from "console";
@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const coupons = await prisma.coupon.findMany({
+        const coupons = await db.coupon.findMany({
             orderBy: {
                 id: "asc"
             },
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
             }, {status: 400})
         }
 
-        const coupon = await prisma.coupon.create({
+        const coupon = await db.coupon.create({
             data: {
                 code,
                 description: description || "",
@@ -77,7 +77,7 @@ export async function PATCH(req: NextRequest) {
             }, {status: 400})
         }
 
-        const coupon = await prisma.coupon.update({
+        const coupon = await db.coupon.update({
             where: {id: parseInt(id)},
             data: {
                 code,
@@ -109,7 +109,7 @@ export async function DELETE(req: NextRequest) {
             }, {status: 400})
         }
 
-        await prisma.coupon.delete({
+        await db.coupon.delete({
             where: {id: parseInt(id)}
         })
 
