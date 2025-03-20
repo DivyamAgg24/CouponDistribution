@@ -1,5 +1,5 @@
 import { NextRequest,NextResponse } from "next/server";
-import { db } from "@/index.ts";
+import prisma from "@/app/lib";
 import { cookies } from "next/headers";
 
 type Coupon = {
@@ -21,7 +21,7 @@ export async function GET(req:NextRequest) {
         const cooldownPeriod = parseInt(process.env.COOLDOWN_TIME || "3600")
         const claimGap = new Date(Date.now() - cooldownPeriod * 1000)
     
-        const recentClaim = await db.claim.findFirst({
+        const recentClaim = await prisma.claim.findFirst({
             where: {
                 ipAddress: ip,
                 createdAt: {
@@ -39,7 +39,7 @@ export async function GET(req:NextRequest) {
         }
     
         if (claimId){
-            const existingClaim = await db.claim.findUnique({
+            const existingClaim = await prisma.claim.findUnique({
                 where: {
                     id: parseInt(claimId)
                 },
@@ -55,12 +55,12 @@ export async function GET(req:NextRequest) {
             }
         }
     
-        const latestClaim = await db.claim.findFirst({
+        const latestClaim = await prisma.claim.findFirst({
            orderBy: {createdAt: "desc"},
            include: {coupon: true}
         })
     
-        const activeCoupons = await db.coupon.findMany({
+        const activeCoupons = await prisma.coupon.findMany({
             where: {
                 isActive: true
             },
@@ -83,7 +83,7 @@ export async function GET(req:NextRequest) {
     
         const nextCoupon = activeCoupons[nextCouponIndex]
     
-        const claim = await db.claim.create({
+        const claim = await prisma.claim.create({
             data: {
                 couponId: nextCoupon.id,
                 ipAddress: ip,
