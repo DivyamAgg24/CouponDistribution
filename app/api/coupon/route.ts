@@ -1,6 +1,16 @@
 import { NextRequest,NextResponse } from "next/server";
 import { db } from "@/index";
 import { cookies } from "next/headers";
+import { act } from "react";
+
+type Coupon = {
+    id: number;
+    code: string;
+    description: string | null;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+}
 
 export async function GET(req:NextRequest) {
     try {
@@ -68,7 +78,7 @@ export async function GET(req:NextRequest) {
     
         let nextCouponIndex = 0
         if(latestClaim){
-            const lastIndex = activeCoupons.findIndex(c => c.id == latestClaim.couponId)
+            const lastIndex = activeCoupons.findIndex((c: Coupon) => c.id == latestClaim.couponId)
             nextCouponIndex = (lastIndex + 1) % activeCoupons.length
         }
     
