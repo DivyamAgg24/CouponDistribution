@@ -54,7 +54,7 @@ export async function DELETE(req: NextRequest) {
             return NextResponse.json({ error: "Claim ID is required" }, { status: 400 });
         }
 
-        await db.claim.delete({
+        const resp = await db.claim.delete({
             where: { id: parseInt(id) }
         });
 
