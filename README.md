@@ -11,7 +11,7 @@ git clone https://github.com/DivyamAgg24/CouponDistribution.git
 
 2. Go into the directory
 ```
-cd coupondistribution
+cd CouponDistribution
 ```
 
 3. Install dependencies
