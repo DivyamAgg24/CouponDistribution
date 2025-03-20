@@ -1,11 +1,10 @@
-// prisma/seed.ts
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  // Create default admin user
+  
   const hashedPassword = await bcrypt.hash('admin123', 10);
   await prisma.admin.upsert({
     where: { username: 'admin' },
@@ -16,7 +15,7 @@ async function main() {
     },
   });
 
-  // Create some sample coupons
+  
   const coupons = [
     { code: 'WELCOME10', description: '10% off for new users' },
     { code: 'SPRING25', description: '25% off spring collection' },
