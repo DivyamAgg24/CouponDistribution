@@ -1,4 +1,4 @@
-import  { db }  from "@/app/lib";
+import  prisma  from "@/app/lib";
 import bcrypt from "bcrypt"
 import CredentialsProvider from "next-auth/providers/credentials";
 import { z } from "zod";
@@ -22,7 +22,7 @@ export const authOptions = {
                     throw new Error("Missing credentials")
                 }
                 
-                const admin = await db.admin.findUnique({
+                const admin = await prisma.admin.findUnique({
                     where: {
                         username: credentials.username
                     }
