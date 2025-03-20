@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/index";
+import { db } from "@/index.ts";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/auth";
 import { error } from "console";

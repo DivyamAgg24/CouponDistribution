@@ -1,9 +1,7 @@
-import { db } from "@/index";
-import NextAuth from "next-auth/next";
+import { db } from "@/index.ts";
 import bcrypt from "bcrypt"
 import CredentialsProvider from "next-auth/providers/credentials";
 import { z } from "zod";
-import { DefaultSession } from "next-auth";
 
 
 const loginSchema = z.object({

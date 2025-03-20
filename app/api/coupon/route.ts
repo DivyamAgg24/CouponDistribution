@@ -1,7 +1,6 @@
 import { NextRequest,NextResponse } from "next/server";
-import { db } from "@/index";
+import { db } from "@/index.ts";
 import { cookies } from "next/headers";
-import { act } from "react";
 
 type Coupon = {
     id: number;
